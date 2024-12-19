@@ -1,28 +1,40 @@
-"use client"
-import { PaystackButton } from "react-paystack"
+"use client";
+import { PaystackButton } from "react-paystack";
+import { markAsSold } from "../actions/markAsSold";
 
-export default function PaystackPaymentButton({email, amount, productName, productId}) {
-    const publickey = "pk_test_b62169cdcb499f160ec7682a0987609cc527802b"
-    const handleSuccess = async (reference)=>{
-        console.log('payment successful', reference)
-        alert('Payment Successful')
+
+export default function PaystackPaymentButton({ email, amount, productName, productId }) {
+    const publicKey = "pk_test_69d667fa468952d2db6343d1648b331ac03f0a2a"
+
+    const handleSuccess = async (reference) => {
+        console.log("Payment successful", reference);
+        alert("Payment successful")
+        try {
+            const result = await markAsSold(productId)
+            if (result.success) {
+                alert("Sold")
+            }
+        } catch (error) {
+            console.error("Error marking product as sold", error)
+            alert("Failed to mark product as sold")
+        }
     }
-    const handleClose = ()=>{
-        console.log('Payment not completed')
-        alert('Payment was Aborted')
+
+    const handleClose = () => {
+        console.log("Payment not completed");
+        alert("Payment was aborted");
     }
-    return(
+
+    return (
         <PaystackButton
-        label="early-mart001"
-        email={email}
-        amount={amount}
-        publicKey={publickey}
-        text={`Buy ${productName}`} 
-        onSuccess={handleSuccess}
-        onClose={handleClose}
-        className="bg-emerald-600 text-white py-3 px-6 rounded-lg hover:bg-emerald-700 transition-all"
-        
-
+            label="Eary-Mart"
+            email={email}
+            amount={amount}
+            publicKey={publicKey}
+            text={`Buy ${productName}`}
+            onSuccess={handleSuccess}
+            onClose={handleClose}
+            className="bg-emerald-600 text-white py-3 px-6 rounded-lg hover:bg-emerald-700 transition-all"
         />
     )
 }

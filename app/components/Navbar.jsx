@@ -59,7 +59,7 @@ const Navbar = () => {
    
 
     return (
-        <main className='bg-gray-800 text-white p-3 flex items-center justify-between sticky top-0'>
+        <main className='bg-gray-800 text-white p-3 flex items-center justify-between sticky top-0 z-50'>
             <Image
                 src={'/logo.png'}
                 alt='logo'
